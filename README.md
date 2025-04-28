@@ -1,50 +1,38 @@
-# React + TypeScript + Vite
+# SQLite Playground
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An in-browser SQL playground built with **React**, **TypeScript**, **Monaco Editor**, and **sql.js**.  
+Features include a resizable editor and visual table outputs for interactive SQL learning and testing.
 
-Currently, two official plugins are available:
+### 🌐 Live Demo
+[SQLite Playground →](https://akshithd.github.io/SQLite-Playground/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🚀 Features
+- Write and execute SQL queries in the browser
+- Resizable editor pane for a better experience
+- Visualize query results in a table format
+- Built using React, TypeScript, Vite, TailwindCSS, sql.js, and Monaco Editor
 
-## Expanding the ESLint configuration
+### 🛠️ Tech Stack
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- sql.js (SQLite compiled to WebAssembly)
+- Monaco Editor
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 📂 Setup Instructions
+To run locally:
 
-- Configure the top-level `parserOptions` property like this:
+```bash
+# Clone the repo
+git clone https://github.com/your-username/SQLite-Playground.git
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+# Navigate to the project directory
+cd SQLite-Playground
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+# Install dependencies
+npm install
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+# Start the development server
+npm run dev
 ```
