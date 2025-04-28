@@ -10,7 +10,6 @@ Features include a resizable editor and visual table outputs for interactive SQL
 - Write and execute SQL queries in the browser
 - Resizable editor pane for a better experience
 - Visualize query results in a table format
-- Built using React, TypeScript, Vite, TailwindCSS, sql.js, and Monaco Editor
 
 ### 🛠️ Tech Stack
 - React
