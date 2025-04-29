@@ -208,7 +208,7 @@ const SchemaFlow: React.FC<SchemaViewerProps> = ({ tables }) => {
   };
 
   // Generate edges from foreign key relationships
-  const generateEdges = (): Edge[] => {
+  const generateEdges = useCallback((): Edge[] => {
     const edges: Edge[] = [];
     
     tables.forEach(table => {
@@ -241,7 +241,7 @@ const SchemaFlow: React.FC<SchemaViewerProps> = ({ tables }) => {
     });
     
     return edges;
-  };
+  }, [tables]);
 
   // Use React Flow hooks to manage nodes and edges state
   const [nodes, setNodes, onNodesChange] = useNodesState(generateInitialNodes());
@@ -266,12 +266,12 @@ const SchemaFlow: React.FC<SchemaViewerProps> = ({ tables }) => {
   // Update edges continuously during drag to maintain connections
   const updateEdgesDuringDrag = useCallback(() => {
     if (isDragging) {
-      // Only update edges without adjusting the viewport
-      setEdges(prev => [...prev]);
+      // Update with completely regenerated edges to ensure consistent connections
+      setEdges(generateEdges());
       // Schedule next update if still dragging
       requestAnimationFrame(updateEdgesDuringDrag);
     }
-  }, [isDragging, setEdges]);
+  }, [isDragging, setEdges, generateEdges]);
 
   // Re-create nodes when tables change, but preserve positions
   useEffect(() => {
@@ -296,6 +296,14 @@ const SchemaFlow: React.FC<SchemaViewerProps> = ({ tables }) => {
       reactFlowInstance.fitView({ padding: 0.3, duration: 300 });
     }, 100);
   }, [tables, setNodes, setEdges]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Add effect to monitor nodes and update edges when their positions change
+  useEffect(() => {
+    // This ensures edges maintain connections even after dragging is complete
+    if (!isDragging) {
+      setEdges(generateEdges());
+    }
+  }, [nodes, generateEdges, setEdges, isDragging]);
 
   // Define custom node types
   const nodeTypes = {
@@ -325,12 +333,9 @@ const SchemaFlow: React.FC<SchemaViewerProps> = ({ tables }) => {
       console.warn('Failed to save node positions to localStorage:', e);
     }
     
-    // Update edges to follow the moved nodes after a short delay
-    // without changing the viewport
-    setTimeout(() => {
-      setEdges([...generateEdges()]);
-    }, 50);
-  }, [setEdges]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Immediately regenerate edges to ensure they stay visible
+    setEdges(generateEdges());
+  }, [setEdges, generateEdges]); // Add generateEdges to dependencies
 
   // Load saved positions from localStorage on initial render
   useEffect(() => {
